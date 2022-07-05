@@ -1,0 +1,58 @@
+package reCycleCode;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+
+import javax.mail.internet.MimeMessage;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+
+
+@Component
+public class EmailServiceImpl implements EmailService {
+
+    @Autowired
+    private JavaMailSender javaMailSender;
+    
+    @Override
+    public Boolean sendEmailWithTemplate(String to, String subject, String text, Map<String, Object> model,
+                                                                                    Template htmlTemplate) {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        try {
+            // set mediaType
+            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                    StandardCharsets.UTF_8.name());
+            String html = FreeMarkerTemplateUtils.processTemplateIntoString(htmlTemplate,model);
+
+            helper.setTo(to);
+            helper.setText(html, true);
+            helper.setSubject(subject);
+            helper.setFrom("__ <EMAIL.COM>");
+            javaMailSender.send(message);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}
+
+
+#email configuration
+spring.mail.host=email-smtp.us-east-2.amazonaws.com
+spring.mail.username=AKIA352DGV2KFBDDP3U3
+spring.mail.password=BIzQTuLIZK7N55b74YEhNjdp/zdQ9eQYx3aewJIgaE2B
+spring.mail.properties.mail.transport.protocol=smtp
+spring.mail.properties.mail.smtp.port=587
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.starttls.required=true
+from.email.address=no-reply@ezyhire.com
+from.email.name=ezyhire
