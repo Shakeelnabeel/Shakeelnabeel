@@ -1,0 +1,43 @@
+package myCodereCycleCode;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+public enum Class {
+
+    @JsonProperty("1")
+    ENUM(1),
+
+    @JsonProperty("2")
+    ENUM(2),
+
+    @JsonProperty("3")
+    ENUM(3),
+
+    @JsonProperty("4")
+    ENUM(4);
+
+    private final int type;
+
+    Class(int type) {
+        this.type = type;
+    }
+
+    @JsonValue
+    public int show() {
+        return this.type;
+    }
+
+    @JsonCreator
+    public static Class val(int value) {
+        for (Class class : Class.values()) {
+            if (class.show() == value) {
+                return class;
+            }
+        }
+        return null;
+    }
+}
