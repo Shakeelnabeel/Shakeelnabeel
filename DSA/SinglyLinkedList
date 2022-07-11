@@ -132,6 +132,37 @@ public class SinglyLinkedList {
         System.out.println(data + " Not found in the Linked List");
     }
 
+    public boolean containsLoop() {     //  checks for loop in LinkedList
+        ListNode fastPtr = head;
+        ListNode slowPtr = head;
+
+        while (fastPtr != null && fastPtr.next != null) {
+            fastPtr = fastPtr.next.next;
+            slowPtr = slowPtr.next;
+
+            if (slowPtr == fastPtr) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void createALoopInLinkedList() {     // creates a LinkedList with loop
+        ListNode first = new ListNode(1);
+        ListNode second = new ListNode(2);
+        ListNode third = new ListNode(3);
+        ListNode fourth = new ListNode(4);
+        ListNode fifth = new ListNode(5);
+        ListNode sixth = new ListNode(6);
+
+        head = first;
+        first.next = second;
+        second.next = third;
+        third.next = fourth;
+        fourth.next = fifth;
+        fifth.next = sixth;
+        sixth.next = third;
+    }
     public void display() {
         ListNode current = head;
         while (current != null) {
@@ -144,24 +175,25 @@ public class SinglyLinkedList {
 
     public static void main(String[] args) {
         SinglyLinkedList sll = new SinglyLinkedList();
-        sll.insert(1);
-        sll.insert(2);
-
-        sll.insertAtBegin(0);
-        sll.insertAtBegin(9);
-
-        sll.insertAtEnd(6);
-        sll.insertAtEnd(6);
-
-        sll.insertAt(4, 10);
-        sll.insertAt(4, 15);
-
-        sll.search(11);
-
-        sll.deleteAt(2);
-        sll.deleteAt(3);
-        sll.display();
-        System.out.println("length of list is : " + sll.length());
+//        sll.insert(1);
+//        sll.insert(2);
+//
+//        sll.insertAtBegin(0);
+//        sll.insertAtBegin(9);
+//
+//        sll.insertAtEnd(6);
+//        sll.insertAtEnd(6);
+//
+//        sll.insertAt(4, 10);
+//        sll.insertAt(4, 15);
+//
+//        sll.search(11);
+//
+//        sll.deleteAt(2);
+//        sll.deleteAt(3);
+//        sll.display();
+        sll.createALoopInLinkedList();
+        System.out.println(sll.containsLoop());
 
     }
 }
