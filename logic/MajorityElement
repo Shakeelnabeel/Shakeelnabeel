@@ -1,0 +1,36 @@
+package logic;      //  SUBMITTED 159. LEETCODE
+
+import java.util.Arrays;
+import java.util.HashMap;
+
+public class MajorityElement {
+    public static void main(String[] args) {
+        int nums[] = new int[]{2,2,1,1,2,2,2,2,2,2,1,1};
+        System.out.println(majorityElement(nums));
+    }
+
+    private static int majorityElement(int[] nums) {
+        HashMap<Integer, Integer> check = new HashMap<>();
+        Integer integer = 0;
+        for (int i = 0; i < nums.length ; i++) {
+            if (!check.containsKey(nums[i])) {
+                check.put(nums[i], 1);
+            }else {
+                integer = check.get(nums[i]);
+                Integer max = integer+1;
+                check.replace(nums[i], max);
+            }
+
+        }
+            int count= 0;
+            int countVal= 0;
+        for (int a : check.keySet()) {
+            if (check.get(a) > count) {
+                Integer integer1 = check.get(a);
+                count = integer1;
+                countVal = a;
+            }
+        }
+        return countVal;
+    }
+}
